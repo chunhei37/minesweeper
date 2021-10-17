@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+## Minesweeper
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a minesweeper game built with React.
 
 ## Available Scripts
 
