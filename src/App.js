@@ -2,7 +2,6 @@ import React from "react";
 import Board from "./Component/Board";
 import Scorebar from "./Component/Scorebar";
 
-
 const FillMines = (boardValue, startPos = [0, 0], difficulty = 0) => {
   const board = Object.assign({}, boardValue);
   const boardSize = Object.keys(board).length;
@@ -171,31 +170,30 @@ const GetHandlers = ({
     const findRevealPos = (x, y) => {
       x = parseInt(x);
       y = parseInt(y);
-      revealPos.push([x, y]);
-      if (board[x][y] === 0) {
-        for (let i = -1; i <= 1; i++) {
-          for (let t = -1; t <= 1; t++) {
-            const [xx, yy] = [x + i, y + t];
-            if (xx in board && yy in board[xx]) {
-              if (board[xx][yy] !== -1) {
-                if (board[xx][yy] === 0) {
-                  if (addedList.indexOf(`${xx}-${yy}`) < 0) {
-                    addedList.push(`${xx}-${yy}`);
-                    findRevealPos(xx, yy);
+        revealPos.push([x, y]);
+        if (board[x][y] === 0) {
+          for (let i = -1; i <= 1; i++) {
+            for (let t = -1; t <= 1; t++) {
+              const [xx, yy] = [x + i, y + t];
+              if (xx in board && yy in board[xx]) {
+                if (board[xx][yy] !== -1) {
+                  if (board[xx][yy] === 0) {
+                    if (addedList.indexOf(`${xx}-${yy}`) < 0) {
+                      addedList.push(`${xx}-${yy}`);
+                      findRevealPos(xx, yy);
+                    }
+                  } else {
+                    revealPos.push([xx, yy]);
                   }
-                } else {
-                  revealPos.push([xx, yy]);
                 }
               }
             }
           }
-        }
       }
     };
 
     findRevealPos(x, y);
-    const finalRevealPos = [...new Set(revealPos)];
-    for (let i of finalRevealPos) {
+    for (let i of revealPos) {
       const [x, y] = i;
       boardState[x][y] = 0;
     }
@@ -218,9 +216,9 @@ const WelcomeScreen = (setDifficulty) => {
           fontSize: 18,
           fontWeight: "bold",
           margin: 10,
-          color:"#efefef",
+          color: "#efefef",
           textShadow: "1px 1px #333",
-          boxShadow: "1px 1px rgba(0,0,0,0.5)"
+          boxShadow: "1px 1px rgba(0,0,0,0.5)",
         }}
         onClick={onClickEvent}
       >
@@ -232,7 +230,7 @@ const WelcomeScreen = (setDifficulty) => {
   return (
     <div>
       <div style={{ textAlign: "center", fontSize: 36, color: "#222" }}>
-        <h1 style={{textShadow: "1px 1px #333"}}>Minesweeper</h1>
+        <h1 style={{ textShadow: "1px 1px #333" }}>Minesweeper</h1>
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <LevelButton
@@ -292,14 +290,14 @@ function App() {
   const [timeSpent, setTimeSpent] = React.useState(0);
   const timerRef = React.useRef(null);
 
-  React.useEffect(()=> {
-    if(!isFirstMove) {
+  React.useEffect(() => {
+    if (!isFirstMove) {
       setTimeSpent(1);
     }
   }, [isFirstMove]);
 
-  React.useEffect(()=> {
-    if(timeSpent > 0) {
+  React.useEffect(() => {
+    if (timeSpent > 0) {
       timerRef.current = setTimeout(() => setTimeSpent(timeSpent + 1), 1000);
     } else {
       clearTimeout(timerRef.current);
@@ -333,7 +331,7 @@ function App() {
       setIsFirstMove: setIsFirstMove,
     });
     setEventHandlers(handlers);
-  }, [BoardState, BoardValue, Difficulty, totalMineCounts,isFirstMove]);
+  }, [BoardState, BoardValue, Difficulty, totalMineCounts, isFirstMove]);
 
   return (
     <div
