@@ -125,6 +125,9 @@ const GetHandlers = ({
   };
 
   handlers["rightClick"] = (curPos) => {
+    if(isFirstMove) {
+      return;
+    }
     const [x, y] = curPos;
     if (boardState[x][y] === 1) {
       handlers.addFlag(curPos);
